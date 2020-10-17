@@ -2,8 +2,8 @@ import cv2
 import numpy as np
 
 #capturing video through webcam
-cap=cv2.VideoCapture('resources/4.mp4')
-position = (100,50)
+cap=cv2.VideoCapture('../resources/7.jpg')
+
 while(1):
         _, img = cap.read()
             
@@ -28,11 +28,11 @@ while(1):
         green_upper=np.array([75,255,255],np.uint8)
 
         #defining the Range of dark green color ph 8
-        darkgreen_lower=np.array([90,50,150],np.uint8)
-        darkgreen_upper=np.array([130,255,255],np.uint8)
+        darkgreen_lower=np.array([76,50,150],np.uint8)
+        darkgreen_upper=np.array([90,255,255],np.uint8)
         
         #defining the Range of blue color ph 9
-        blue_lower=np.array([100,50,20],np.uint8)
+        blue_lower=np.array([95,50,20],np.uint8)
         blue_upper=np.array([135,255,255],np.uint8)
         
         #defining the Range of violet color ph 10
@@ -81,7 +81,7 @@ while(1):
                         cy = int(M["m01"]/M["m00"])
                         cv2.circle(img,(cx,cy),7,(255,255,255),-1)
                         x,y,w,h = cv2.boundingRect(contour)     
-                        cv2.putText(img,"pH 4",(50,50),cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0,0,0))  
+                        cv2.putText(img,"pH 4",(cx+5,cy),cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255,255,255))  
           
         #Tracking the orange Color
         (contours,hierarchy)=cv2.findContours(orange,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
@@ -93,7 +93,7 @@ while(1):
                         cy = int(M["m01"]/M["m00"])
                         cv2.circle(img,(cx,cy),7,(255,255,255),-1)
                         x,y,w,h = cv2.boundingRect(contour)     
-                        cv2.putText(img,"pH 5",(100,50),cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0,0,0))  
+                        cv2.putText(img,"pH 5",(cx+5,cy),cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255,255,255))  
 
         #Tracking the yellow Color
         (contours,hierarchy)=cv2.findContours(yellow,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
@@ -105,7 +105,7 @@ while(1):
                         cy = int(M["m01"]/M["m00"])
                         cv2.circle(img,(cx,cy),7,(255,255,255),-1)
                         x,y,w,h = cv2.boundingRect(contour)     
-                        cv2.putText(img,"pH 6",(150,50),cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0,0,0))  
+                        cv2.putText(img,"pH 6",(cx+5,cy),cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255,255,255))  
 
         #Tracking the green Color
         (contours,hierarchy)=cv2.findContours(green,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
@@ -117,7 +117,7 @@ while(1):
                         cy = int(M["m01"]/M["m00"])
                         cv2.circle(img,(cx,cy),7,(255,255,255),-1)
                         x,y,w,h = cv2.boundingRect(contour)     
-                        cv2.putText(img,"pH 7",(200,50),cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0,0,0))  
+                        cv2.putText(img,"pH 7",(cx+5,cy),cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255,255,255))  
             
         #Tracking the darkgreen Color
         (contours,hierarchy)=cv2.findContours(darkgreen,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
@@ -129,7 +129,7 @@ while(1):
                         cy = int(M["m01"]/M["m00"])
                         cv2.circle(img,(cx,cy),7,(255,255,255),-1)
                         x,y,w,h = cv2.boundingRect(contour)     
-                        cv2.putText(img,"pH 8",(250,50),cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0,0,0))  
+                        cv2.putText(img,"pH 8",(cx+5,cy),cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255,255,255))  
 
          #Tracking the blue Color
         (contours,hierarchy)=cv2.findContours(blue,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
@@ -141,7 +141,7 @@ while(1):
                         cy = int(M["m01"]/M["m00"])
                         cv2.circle(img,(cx,cy),7,(255,255,255),-1)
                         x,y,w,h = cv2.boundingRect(contour)     
-                        cv2.putText(img,"pH 9",(300,50),cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0,0,0))  
+                        cv2.putText(img,"pH 9",(cx+5,cy),cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255,255,255))  
 
          #Tracking the violet Color
         (contours,hierarchy)=cv2.findContours(violet,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
@@ -153,7 +153,7 @@ while(1):
                         cy = int(M["m01"]/M["m00"])
                         cv2.circle(img,(cx,cy),7,(255,255,255),-1)
                         x,y,w,h = cv2.boundingRect(contour)     
-                        cv2.putText(img,"pH 10",(350,50),cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0,0,0))  
+                        cv2.putText(img,"pH 10",(cx+5,cy),cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255,255,255))  
                   
 
         
