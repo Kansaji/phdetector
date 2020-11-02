@@ -3,7 +3,6 @@ import numpy as np
 from datetime import datetime
 import tkinter as tk
 from tkinter import simpledialog
-from tkinter import messagebox
 from tkinter import filedialog
 import os
 
@@ -12,13 +11,19 @@ def calculate_ph(path):
         cap=cv2.VideoCapture(path)
         while(1):
                 _, img = cap.read()
-                minarea=1000
+               
+                
+                minarea=1800
                 fontsize=0.5
                 pointersize=3
-                #converting frame(img i.e BGR) to HSV (hue-saturation-value)
-
-                hsv=cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
-
+                #converting frame to HSV
+                try:
+                        
+                        hsv=cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
+                except:
+                        cap.release()  
+                        break
+                
                 #defining the Range of red color ph 4
                 red_lower=np.array([175, 50, 50],np.uint8)
                 red_upper=np.array([179, 255, 255],np.uint8)
@@ -32,12 +37,12 @@ def calculate_ph(path):
                 yellow_upper=np.array([30, 255, 255],np.uint8)
 
                 #defining the Range of green color ph7
-                green_lower=np.array([32,50,20],np.uint8)
+                green_lower=np.array([32,50,30],np.uint8)
                 green_upper=np.array([38,255,255],np.uint8)
 
                 #defining the Range of dark green color ph 8
-                darkgreen_lower=np.array([39,50,20],np.uint8)
-                darkgreen_upper=np.array([80,255,255],np.uint8)
+                darkgreen_lower=np.array([45,50,20],np.uint8)
+                darkgreen_upper=np.array([80,255,100],np.uint8)
                 
                 #defining the Range of blue color ph 9
                 blue_lower=np.array([95,50,20],np.uint8)
@@ -48,7 +53,6 @@ def calculate_ph(path):
                 violet_upper=np.array([102,255,25],np.uint8)
 
                      
-
                 #finding the range in the image
                 red=cv2.inRange(hsv,red_lower,red_upper)
                 orange=cv2.inRange(hsv,orange_lower,orange_upper)
@@ -63,16 +67,14 @@ def calculate_ph(path):
                 kernal = np.ones((5 ,5), "uint8")
 
                 red=cv2.erode(red,kernal)
+
                 orange=cv2.erode(orange,kernal)
 
                 yellow=cv2.erode(yellow,kernal)
-                #res1=cv2.bitwise_and(img, img, mask = yellow) 
-
+               
                 green=cv2.erode(green,kernal)
-                #res2=cv2.bitwise_and(img, img, mask = green)
-
+             
                 darkgreen=cv2.erode(darkgreen,kernal)
-                #res3=cv2.bitwise_and(img, img, mask = blue)
 
                 blue=cv2.erode(blue,kernal)
 
@@ -166,7 +168,7 @@ def calculate_ph(path):
                 
                
                 cv2.imshow("Detecting.. press 's' to save image",img)
-                key = cv2.waitKey(2)
+                key = cv2.waitKey(5)
                 if  key &  0xFF == ord('q'):
                         cap.release()
                         cv2.destroyAllWindows()
@@ -179,23 +181,21 @@ def calculate_ph(path):
                                   prompt="Enter File name:")
                         name=str(file_name)+".jpg"
                         cv2.imwrite(name,img)
-                       
-ROOT = tk.Tk()
-ROOT.withdraw()
+                                             
+window = tk.Tk()
+window.geometry("200x75")
 
-USER_INP = simpledialog.askstring(title="pH detector Select source",
-                                  prompt="Enter 1 to select a file\nEnter O(zero) to use the camera\n")
-
-to_string=str(USER_INP)
-if to_string!='0':
+def callback_from_camera():
+        calculate_ph(0)
         
+def callback_from_file():
         my_filetypes = [('all files', '.*'), ('Video files', '.mp4')]
-        file_name = filedialog.askopenfilename(parent=ROOT,
-                                    initialdir=os.getcwd(),
-                                    title="Please select a video file:",
-                                    filetypes=my_filetypes)
+        file_name = filedialog.askopenfilename(parent=window,initialdir=os.getcwd(),title="Please select a video file",filetypes=my_filetypes)
         calculate_ph(file_name)
         
-else:
-        calculate_ph(0)
+button_camera = tk.Button(window, text="Feed from camera", command=callback_from_camera)
+button_file = tk.Button(window, text="Import file", command=callback_from_file)
+button_camera.grid(row=0,column=1)
+button_file.grid(row=0,column=3)
+tk.mainloop()
         
