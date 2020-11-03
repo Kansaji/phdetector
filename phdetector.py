@@ -6,7 +6,15 @@ from tkinter import simpledialog
 from tkinter import filedialog
 import os
 
+def saveImage(img):
+        ROOT = tk.Tk()
+        ROOT.withdraw()  
 
+        file_name = simpledialog.askstring(title="Save image",prompt="Enter File name:")
+        name=str(file_name)+".jpg"
+        cv2.imwrite(name,img)
+                                
+        
 def calculate_ph(path):
         cap=cv2.VideoCapture(path)
         while(1):
@@ -18,12 +26,18 @@ def calculate_ph(path):
                 pointersize=3
                 #converting frame to HSV
                 try:
-                        
                         hsv=cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
                 except:
-                        cap.release()  
-                        break
-                
+                        key = cv2.waitKey(0)
+                        if  key  & 0xFF == ord('s'):
+                                saveImage(previous_frame)
+                                cap.release()
+                                cv2.destroyAllWindows()
+                                break
+                        if  key &  0xFF == ord('q'):
+                                cap.release()
+                                cv2.destroyAllWindows()
+                                
                 #defining the Range of red color ph 4
                 red_lower=np.array([175, 50, 50],np.uint8)
                 red_upper=np.array([179, 255, 255],np.uint8)
@@ -168,19 +182,15 @@ def calculate_ph(path):
                 
                
                 cv2.imshow("Detecting.. press 's' to save image",img)
+                previous_frame=img;
                 key = cv2.waitKey(5)
                 if  key &  0xFF == ord('q'):
                         cap.release()
                         cv2.destroyAllWindows()
                         break
                 if  key  & 0xFF == ord('s'):
-                        ROOT = tk.Tk()
-                        ROOT.withdraw()  
-
-                        file_name = simpledialog.askstring(title="Save image",
-                                  prompt="Enter File name:")
-                        name=str(file_name)+".jpg"
-                        cv2.imwrite(name,img)
+                        saveImage(img)
+                        
                                              
 window = tk.Tk()
 window.geometry("200x75")
